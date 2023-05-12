@@ -1,19 +1,30 @@
 import React from 'react';
 import { stocks } from '../Data';
+import { useParams } from 'react-router';
 
 
+const StockDetail = (props) => {
+  const { symbol } = useParams();
+  console.log(stocks); 
+  console.log(symbol);
 
-const Stock = (props) => {
-  const stock = props.stockData.stocks.filter((stock) => {
-    //if the stock symbol matches the parameter return true
-    return (stock.symbol === props.match.params.symbol)
-  })[0]
+  const stock = stocks.find((item) => item.symbol === symbol);
+
+  if (!stock) {
+    return <div>Stock not found.</div>;
+  }
+
   return (
-    <div>
-      <h3>Name: {stock.name}</h3>
-      <h3 className="price">Price: {stock.lastPrice}</h3>
-    </div>
-  )
-}
 
-export default Stock;
+    <div>
+      <h2>{stock.name}</h2>
+      <p>Last Price: {stock.lastPrice}</p>
+      <p>Change: {stock.change}</p>
+      <p>High: {stock.high}</p>
+      <p>Low: {stock.low}</p>
+      <p>Open: {stock.open}</p>
+    </div>
+  );
+};
+
+export default StockDetail;
